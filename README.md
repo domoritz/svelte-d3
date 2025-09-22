@@ -1,22 +1,14 @@
-# sv
+# Svelte + D3 (with runes) example
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A demonstration of integrating D3.js with Svelte 5 using the new runes syntax. This project showcases different approaches to creating data visualizations with bar charts rendered using HTML, SVG, and D3 axes.
 
-## Creating a project
+## Live Demo
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```sh
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
-```
+The project is automatically deployed to GitHub Pages on every push to main.
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Once you've created a project and installed dependencies with `npm install`, start a development server:
 
 ```sh
 npm run dev
@@ -35,4 +27,6 @@ npm run build
 
 You can preview the production build with `npm run preview`.
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+## Data Source
+
+The charts visualize health and income data from the [Gapminder dataset](https://vega.github.io/vega-datasets/data/gapminder-health-income.csv), showing health scores by country with regional color coding.
