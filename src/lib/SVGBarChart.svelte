@@ -64,6 +64,7 @@
 <svg {width} {height}>
 	{#each data as d (d.country)}
 		<rect
+			class="bar"
 			x="0"
 			y={yScale(d.country)}
 			width={xScale(d.health)}
@@ -71,12 +72,10 @@
 			fill={colorScale(d.region)}
 		/>
 		<text
+			class="label"
 			x={xScale(d.health) - 5}
 			y={(yScale(d.country) ?? 0) + yScale.bandwidth() / 2}
 			dy="0.35em"
-			text-anchor="end"
-			fill="white"
-			font-size="12"
 		>
 			{d.country}: {d.health}
 		</text>
@@ -84,7 +83,17 @@
 </svg>
 
 <style>
-    text {
-        font-family: sans-serif;
-    }
+	svg {
+		font-family: sans-serif;
+	}
+
+	.bar {
+		stroke: white;
+	}
+
+	.label {
+		fill: white;
+		font-size: small;
+		text-anchor: end;
+	}
 </style>
