@@ -10,10 +10,11 @@
 	}
 
 	type RawItem = {
-		[K in keyof Item]: string;
+		[K in keyof Item]: Item[K] extends number ? string : Item[K];
 	};
 
 	let width = $state(400);
+	let height = $state(4650);
 	let data: Item[] = $state([]);
 
 	$effect(() => {
@@ -44,28 +45,46 @@
 			.range([0, width])
 	);
 
+	let yScale = $derived(
+		d3
+			.scaleBand()
+			.domain(data.map((d) => d.country))
+			.range([0, height])
+			.padding(0.1)
+	);
+
 	let colorScale = $derived(
 		d3
-			.scaleOrdinal()
+			.scaleOrdinal<string>()
 			.domain(data.map((d) => d.region))
 			.range(d3.schemeTableau10)
 	);
 </script>
 
-{#each data as d (d.country)}
-	<div class="bar" style="width: {xScale(d.health)}px; background: {colorScale(d.region)}">
-		{d.country}: {d.health}
-	</div>
-{/each}
+<svg {width} {height}>
+	{#each data as d (d.country)}
+		<rect
+			x="0"
+			y={yScale(d.country)}
+			width={xScale(d.health)}
+			height={yScale.bandwidth()}
+			fill={colorScale(d.region)}
+		/>
+		<text
+			x={xScale(d.health) - 5}
+			y={(yScale(d.country) ?? 0) + yScale.bandwidth() / 2}
+			dy="0.35em"
+			text-anchor="end"
+			fill="white"
+			font-size="12"
+		>
+			{d.country}: {d.health}
+		</text>
+	{/each}
+</svg>
 
 <style>
-	.bar {
-		background: steelblue;
-		padding: 3px;
-		margin: 1px;
-		text-align: right;
-		color: white;
-		width: 0px;
+    text {
         font-family: sans-serif;
     }
 </style>
