@@ -9,29 +9,38 @@
 		country: string;
 	}
 
+	type RawItem = {
+		[K in keyof Item]: string;
+	};
+
 	let width = $state(400);
 	let data: Item[] = $state([]);
 
 	$effect(() => {
-		d3.csv(
-			'https://vega.github.io/vega-datasets/data/gapminder-health-income.csv',
-			(d: Item) => ({
-				...d,
-				income: +d.income,
-				health: +d.health,
-				population: +d.population
-			})
-		).then((d: Item[]) => {
-			data = d;
-			console.log(data);
-		});
+		const loadData = async () => {
+			try {
+				data = await d3.csv(
+					'https://vega.github.io/vega-datasets/data/gapminder-health-income.csv',
+					(d: RawItem): Item => ({
+						...d,
+						income: +d.income,
+						health: +d.health,
+						population: +d.population
+					})
+				);
+				console.log(data);
+			} catch (error) {
+				console.error('Failed to load data:', error);
+			}
+		};
 
+		loadData();
 	});
 
 	let xScale = $derived(
 		d3
 			.scaleLinear()
-			.domain([0, d3.max(data, (d) => d.health)])
+			.domain([0, d3.max(data, (d) => d.health) ?? 0])
 			.range([0, width])
 	);
 
