@@ -4,9 +4,6 @@
 	import FullSVGBarChart from "$lib/FullSVGBarChart.svelte";
 </script>
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
-
 <h2>Charts</h2>
 <h3>HTML Bar Chart</h3>
 <HTMLBarChart/>
